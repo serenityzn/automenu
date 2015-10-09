@@ -11,7 +11,7 @@ function fill { # 1 - name of the menu 2 - menu array string
 	echo ${y[@]}
 	echo "size"$size
 
-	echo 'function sign_menu {'		>> $1_menu.sh
+	echo 'function '$1'_menu {'		>> $1_menu.sh
 	echo ' echo -e "\x1B[36m[ MAIN ]"'	>> $1_menu.sh
 
 	for i in $(seq 0 $size)
