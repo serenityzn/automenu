@@ -4,12 +4,13 @@
 function fill { # 1 - name of the menu 2 - menu array string 
 	x=$2
 	i=0
+	y=('')
 	menucount=1
 	while [ $i -lt ${#x} ]; do y[$i]=${x:$i:1};  i=$((i+1));done
 	size=${#y[@]}
 	size=$((size-1))
-	echo ${y[@]}
-	echo "size"$size
+	#echo ${y[@]}
+	#echo "size"$size
 
 	echo 'function '$1'_menu {'		>> $1_menu.sh
 	echo ' echo -e "\x1B[36m[ MAIN ]"'	>> $1_menu.sh
@@ -60,12 +61,12 @@ arr_init $size
 filename="tpl"
 
 arr_fill
+#echo ${arr[@]}
 
 arrsize=${#arr[@]}
 arrsize=$((arrsize-1))
 for j in $(seq 1 $arrsize)
 do
-	echo ${arr[$j]}
 	fill ${arr_num[$j]} "${arr[$j]}"
 done
 
