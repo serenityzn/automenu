@@ -1,5 +1,10 @@
-1a){}:New
+1a){}:NEW GAME
 1b){}:LOAD\SAVE
 2a){1b}:LOAD
 2b){1b}:SAVE
-1c){}:EXIT
+1c){}:OPTIONS
+3a){1c}:OPT1
+3b){1c}:OPT2
+3c){1c}:OPT3
+1d){}:CREDITS
+1e){}:EXIT
