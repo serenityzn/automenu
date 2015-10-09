@@ -8,15 +8,15 @@ function fill { # 1 - name of the menu 2 - menu array string
 	while [ $i -lt ${#x} ]; do y[$i]=${x:$i:1};  i=$((i+1));done
 	size=${#y[@]}
 	size=$((size-1))
-	#echo ${y[@]}
-	#echo "size"$size
+	echo ${y[@]}
+	echo "size"$size
 
 	echo 'function sign_menu {'		>> $1_menu.sh
 	echo ' echo -e "\x1B[36m[ MAIN ]"'	>> $1_menu.sh
 
 	for i in $(seq 0 $size)
 	do
-		if [ ${y[$i]} == ":" ];then
+		if [ "${y[$i]}" == ":" ];then
 			echo ' echo "'$menucount' - '$prom'"'	>> $1_menu.sh
 			prom=''
 			menucount=$((menucount+1))
@@ -61,11 +61,11 @@ filename="tpl"
 
 arr_fill
 
-#echo ${arr[@]}
 arrsize=${#arr[@]}
 arrsize=$((arrsize-1))
 for j in $(seq 1 $arrsize)
 do
-	fill ${arr_num[$j]} ${arr[$j]}
+	echo ${arr[$j]}
+	fill ${arr_num[$j]} "${arr[$j]}"
 done
 
