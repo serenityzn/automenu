@@ -1,10 +1,12 @@
-1a){}:NEW GAME
-1b){}:LOAD\SAVE
-2a){1b}:LOAD
-2b){1b}:SAVE
-1c){}:OPTIONS
-3a){1c}:OPT1
-3b){1c}:OPT2
-3c){1c}:OPT3
-1d){}:CREDITS
-1e){}:EXIT
+1a){0}:NEW GAME
+1b){2}:LOAD\SAVE
+2a){4}:LOAD
+4a){0}:GAME1
+4b){0}:GAME2
+2b){0}:SAVE
+1c){3}:OPTIONS
+3a){0}:OPT1
+3b){0}:OPT2
+3c){0}:OPT3
+1d){0}:CREDITS
+1e){0}:EXIT

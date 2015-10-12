@@ -1,27 +1,12 @@
 #! /bin/bash
 source 1_menu.sh
 source 2_menu.sh
-source sub1.sh
+source 3_menu.sh
+source 4_menu.sh
+source 1_sub.sh
+source 2_sub.sh
+source 3_sub.sh
+source 4_sub.sh
 
-1_menu
-while true; do
- read n
- case $n in
-	1)
-		sub1
-	 ;;
-	2)
-		sub2
-	 ;;
-	3)
-		sub3
-	 ;;
-	0)
-		exit
-	 ;;
-	*)
-		echo "fail"
-	 ;;
- esac   
-done
+sub1
 

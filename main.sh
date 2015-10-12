@@ -9,18 +9,38 @@ function fill { # 1 - name of the menu 2 - menu array string
 	while [ $i -lt ${#x} ]; do y[$i]=${x:$i:1};  i=$((i+1));done
 	size=${#y[@]}
 	size=$((size-1))
-	#echo ${y[@]}
+#	subnum=$((size-1))
+#	echo ${y[@]}
+#	echo $[y[$subnum]]
 	#echo "size"$size
 
 	echo 'function '$1'_menu {'		>> $1_menu.sh
 	echo 'clear'				>> $1_menu.sh
 	echo ' echo -e "\x1B[36m[ MAIN ]"'	>> $1_menu.sh
 
+
+	echo '#! /bin/bash'		>> $1_sub.sh
+	echo 'function sub'$1' {'	>> $1_sub.sh
+	echo 'clear'			>> $1_sub.sh
+	echo $1'_menu'			>> $1_sub.sh
+	echo ''				>> $1_sub.sh
+	echo 'while true; do'		>> $1_sub.sh
+	echo ' read n'			>> $1_sub.sh
+	echo ' case $n in'		>> $1_sub.sh
+
 	for i in $(seq 0 $size)
 	do
 		if [ "${y[$i]}" == ":" ];then
-			echo ' echo "'$menucount' - '$prom'"'	>> $1_menu.sh
+			subnum=$((i-1))
+			prom_count=${#prom}
+			prom_count=$((prom_count-1))
+			prom1=${prom:0:$prom_count}
+			echo ' echo "'$menucount' - '$prom1'"'	>> $1_menu.sh
+			echo '	'$menucount')'			>> $1_sub.sh
+			echo '		sub'${y[$subnum]}	>> $1_sub.sh
+			echo '	 ;;'				>> $1_sub.sh
 			prom=''
+			prom1=''
 			menucount=$((menucount+1))
 		else
 			prom=$prom${y[$i]}
@@ -29,6 +49,21 @@ function fill { # 1 - name of the menu 2 - menu array string
 	echo ' echo "0 - Back"'			>> $1_menu.sh
 	echo ' echo -e "\x1B[0m"'		>> $1_menu.sh
 	echo '}'				>> $1_menu.sh
+
+
+	echo '	0)'			>> $1_sub.sh
+	echo '		1_menu'		>> $1_sub.sh
+	echo '		break'		>> $1_sub.sh
+	echo '	 ;;'			>> $1_sub.sh
+	echo '	*)'			>> $1_sub.sh
+	echo '		echo "fail"'	>> $1_sub.sh
+	echo '	 ;;'			>> $1_sub.sh
+	echo ' esac   '			>> $1_sub.sh
+	echo 'done'			>> $1_sub.sh
+	echo '}'			>> $1_sub.sh
+	################# Functions ######################
+
+
 }
 
 function arr_init {
@@ -46,7 +81,9 @@ function arr_fill {
 		str_attr=$(echo $line | cut -d ":" -f1)
 		str_value=$(echo $line | cut -d ":" -f2)
 		tblnum=${str_attr:0:1}
-		arr[$tblnum]=${arr[$tblnum]}$str_value":"
+		str_sub=${str_attr: -2:1}
+		echo "STRING=$str_attr aaaaa="$str_sub
+		arr[$tblnum]=${arr[$tblnum]}$str_value$str_sub":"
 		arr_num[$tblnum]=$tblnum
 	
 	done < "$filename"
