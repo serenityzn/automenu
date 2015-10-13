@@ -1,12 +1,22 @@
 #your_str='1a){}: tosooso'
 #echo $your_str | cut -d ":" -f1
 
+function create_dirs {
+	maindir='project'
+	libdir=./$maindir/libs
+	confdir=./$maindir/conf
+	mkdir ./$maindir
+	mkdir ./$maindir/conf
+	mkdir ./$maindir/libs
+}
+
+
 function start_b {
-	echo '#! /bin/bash'			>> start.sh
+	echo '#! /bin/bash'			>> $maindir/start.sh
 }
 
 function start_e {
-	echo 'sub1'				>> start.sh
+	echo 'sub1'				>> $maindir/start.sh
 }
 
 function fill { # 1 - name of the menu 2 - menu array string 
@@ -21,21 +31,19 @@ function fill { # 1 - name of the menu 2 - menu array string
 #	echo ${y[@]}
 #	echo $[y[$subnum]]
 	#echo "size"$size
-
-	echo 'source 1_menu.sh'					>> start.sh
-	echo 'function '$1'_menu {'				>> $1_menu.sh
-	echo 'clear'						>> $1_menu.sh
-	echo ' echo -e "\x1B[36m[ MAIN ]"'			>> $1_menu.sh
-	echo 'source '$1'_menu.sh'				>> start.sh
-	echo 'source '$1'_sub.sh'				>> start.sh
-	echo '#! /bin/bash'					>> $1_sub.sh
-	echo 'function sub'$1' {'				>> $1_sub.sh
-	echo 'clear'						>> $1_sub.sh
-	echo $1'_menu'						>> $1_sub.sh
-	echo ''							>> $1_sub.sh
-	echo 'while true; do'					>> $1_sub.sh
-	echo ' read n'						>> $1_sub.sh
-	echo ' case $n in'					>> $1_sub.sh
+	echo 'function '$1'_menu {'				>> $libdir/$1_menu.sh
+	echo 'clear'						>> $libdir/$1_menu.sh
+	echo ' echo -e "\x1B[36m[ MAIN ]"'			>> $libdir/$1_menu.sh
+	echo 'source ./libs/'$1'_menu.sh'			>> $maindir/start.sh
+	echo 'source ./libs/'$1'_sub.sh'			>> $maindir/start.sh
+	echo '#! /bin/bash'					>> $libdir/$1_sub.sh
+	echo 'function sub'$1' {'				>> $libdir/$1_sub.sh
+	echo 'clear'						>> $libdir/$1_sub.sh
+	echo $1'_menu'						>> $libdir/$1_sub.sh
+	echo ''							>> $libdir/$1_sub.sh
+	echo 'while true; do'					>> $libdir/$1_sub.sh
+	echo ' read n'						>> $libdir/$1_sub.sh
+	echo ' case $n in'					>> $libdir/$1_sub.sh
 
 	for i in $(seq 0 $size)
 	do
@@ -45,10 +53,10 @@ function fill { # 1 - name of the menu 2 - menu array string
 			prom_count=${#prom}
 			prom_count=$((prom_count-2))
 			prom1=${prom:0:$prom_count}
-			echo ' echo "'$menucount' - '$prom1'"'	>> $1_menu.sh
-			echo '	'$menucount')'			>> $1_sub.sh
-			echo '		sub'${y[$subnum]}	>> $1_sub.sh
-			echo '	 ;;'				>> $1_sub.sh
+			echo ' echo "'$menucount' - '$prom1'"'	>> $libdir/$1_menu.sh
+			echo '	'$menucount')'			>> $libdir/$1_sub.sh
+			echo '		sub'${y[$subnum]}	>> $libdir/$1_sub.sh
+			echo '	 ;;'				>> $libdir/$1_sub.sh
 			prom=''
 			prom1=''
 			menucount=$((menucount+1))
@@ -56,21 +64,21 @@ function fill { # 1 - name of the menu 2 - menu array string
 			prom=$prom${y[$i]}
 		fi
 	done
-	echo ' echo "0 - Back"'					>> $1_menu.sh
-	echo ' echo -e "\x1B[0m"'				>> $1_menu.sh
-	echo '}'						>> $1_menu.sh
+	echo ' echo "0 - Back"'					>> $libdir/$1_menu.sh
+	echo ' echo -e "\x1B[0m"'				>> $libdir/$1_menu.sh
+	echo '}'						>> $libdir/$1_menu.sh
 
 
-	echo '	0)'						>> $1_sub.sh
-	echo '		'${y[$subbackcount]}'_menu'		>> $1_sub.sh
-	echo '		break'					>> $1_sub.sh
-	echo '	 ;;'						>> $1_sub.sh
-	echo '	*)'						>> $1_sub.sh
-	echo '		echo "fail"'				>> $1_sub.sh
-	echo '	 ;;'						>> $1_sub.sh
-	echo ' esac   '						>> $1_sub.sh
-	echo 'done'						>> $1_sub.sh
-	echo '}'						>> $1_sub.sh
+	echo '	0)'						>> $libdir/$1_sub.sh
+	echo '		'${y[$subbackcount]}'_menu'		>> $libdir/$1_sub.sh
+	echo '		break'					>> $libdir/$1_sub.sh
+	echo '	 ;;'						>> $libdir/$1_sub.sh
+	echo '	*)'						>> $libdir/$1_sub.sh
+	echo '		echo "fail"'				>> $libdir/$1_sub.sh
+	echo '	 ;;'						>> $libdir/$1_sub.sh
+	echo ' esac   '						>> $libdir/$1_sub.sh
+	echo 'done'						>> $libdir/$1_sub.sh
+	echo '}'						>> $libdir/$1_sub.sh
 
 
 	################# Functions ######################
@@ -110,10 +118,9 @@ arr_num=('0')
 size=5
 arr_init $size
 filename="tpl"
-
 arr_fill
 #echo ${arr[@]}
-
+create_dirs
 start_b
 arrsize=${#arr[@]}
 arrsize=$((arrsize-1))

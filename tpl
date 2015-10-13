@@ -3,7 +3,10 @@
 2a){14}:LOAD
 4a){20}:GAME1
 4b){20}:GAME2
-2b){10}:SAVE
+2b){15}:SAVE
+5a){20}:SAVE-----1
+5b){20}:SAVE-----2
+5c){20}:SAVE-----3
 1c){03}:OPTIONS
 3a){10}:OPT1
 3b){10}:OPT2
