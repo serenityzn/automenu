@@ -1,6 +1,14 @@
 #your_str='1a){}: tosooso'
 #echo $your_str | cut -d ":" -f1
 
+function start_b {
+	echo '#! /bin/bash'			>> start.sh
+}
+
+function start_e {
+	echo 'sub1'				>> start.sh
+}
+
 function fill { # 1 - name of the menu 2 - menu array string 
 	x=$2
 	i=0
@@ -14,19 +22,20 @@ function fill { # 1 - name of the menu 2 - menu array string
 #	echo $[y[$subnum]]
 	#echo "size"$size
 
-	echo 'function '$1'_menu {'		>> $1_menu.sh
-	echo 'clear'				>> $1_menu.sh
-	echo ' echo -e "\x1B[36m[ MAIN ]"'	>> $1_menu.sh
-
-
-	echo '#! /bin/bash'		>> $1_sub.sh
-	echo 'function sub'$1' {'	>> $1_sub.sh
-	echo 'clear'			>> $1_sub.sh
-	echo $1'_menu'			>> $1_sub.sh
-	echo ''				>> $1_sub.sh
-	echo 'while true; do'		>> $1_sub.sh
-	echo ' read n'			>> $1_sub.sh
-	echo ' case $n in'		>> $1_sub.sh
+	echo 'source 1_menu.sh'					>> start.sh
+	echo 'function '$1'_menu {'				>> $1_menu.sh
+	echo 'clear'						>> $1_menu.sh
+	echo ' echo -e "\x1B[36m[ MAIN ]"'			>> $1_menu.sh
+	echo 'source '$1'_menu.sh'				>> start.sh
+	echo 'source '$1'_sub.sh'				>> start.sh
+	echo '#! /bin/bash'					>> $1_sub.sh
+	echo 'function sub'$1' {'				>> $1_sub.sh
+	echo 'clear'						>> $1_sub.sh
+	echo $1'_menu'						>> $1_sub.sh
+	echo ''							>> $1_sub.sh
+	echo 'while true; do'					>> $1_sub.sh
+	echo ' read n'						>> $1_sub.sh
+	echo ' case $n in'					>> $1_sub.sh
 
 	for i in $(seq 0 $size)
 	do
@@ -47,9 +56,9 @@ function fill { # 1 - name of the menu 2 - menu array string
 			prom=$prom${y[$i]}
 		fi
 	done
-	echo ' echo "0 - Back"'			>> $1_menu.sh
-	echo ' echo -e "\x1B[0m"'		>> $1_menu.sh
-	echo '}'				>> $1_menu.sh
+	echo ' echo "0 - Back"'					>> $1_menu.sh
+	echo ' echo -e "\x1B[0m"'				>> $1_menu.sh
+	echo '}'						>> $1_menu.sh
 
 
 	echo '	0)'						>> $1_sub.sh
@@ -57,11 +66,13 @@ function fill { # 1 - name of the menu 2 - menu array string
 	echo '		break'					>> $1_sub.sh
 	echo '	 ;;'						>> $1_sub.sh
 	echo '	*)'						>> $1_sub.sh
-	echo '		echo "fail"'	>> $1_sub.sh
-	echo '	 ;;'			>> $1_sub.sh
-	echo ' esac   '			>> $1_sub.sh
-	echo 'done'			>> $1_sub.sh
-	echo '}'			>> $1_sub.sh
+	echo '		echo "fail"'				>> $1_sub.sh
+	echo '	 ;;'						>> $1_sub.sh
+	echo ' esac   '						>> $1_sub.sh
+	echo 'done'						>> $1_sub.sh
+	echo '}'						>> $1_sub.sh
+
+
 	################# Functions ######################
 
 
@@ -103,10 +114,12 @@ filename="tpl"
 arr_fill
 #echo ${arr[@]}
 
+start_b
 arrsize=${#arr[@]}
 arrsize=$((arrsize-1))
 for j in $(seq 1 $arrsize)
 do
 	fill ${arr_num[$j]} "${arr[$j]}"
 done
+start_e
 
