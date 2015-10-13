@@ -20,6 +20,6 @@ RUN:
 	
 	As a result you will have next structure:
 		project/|
-			|/libs/...  - contains all libs.
-			|/conf/...  - contains all confs.
-			|/start.sh  - Main entry point. (to start run: $bash start.sh)
+			|--/libs/...  - contains all libs.
+			|--/conf/...  - contains all confs.
+			|--/start.sh  - Main entry point. (to start run: $bash start.sh)
