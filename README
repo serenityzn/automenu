@@ -1,5 +1,5 @@
 Description: 
-	This script generates menu structure via template. So you can just create menus for your bash programs  via this script and concentrate on fucntionality programming.
+	This script generates menu structure via template. So you can just create menus for your bash programs  via this script and concentrates on fucntionality programming.
 
 How it works:
 	1) Fill tpl file with your menu structure:
