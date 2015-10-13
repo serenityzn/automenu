@@ -32,8 +32,9 @@ function fill { # 1 - name of the menu 2 - menu array string
 	do
 		if [ "${y[$i]}" == ":" ];then
 			subnum=$((i-1))
+			subbackcount=$((i-2))
 			prom_count=${#prom}
-			prom_count=$((prom_count-1))
+			prom_count=$((prom_count-2))
 			prom1=${prom:0:$prom_count}
 			echo ' echo "'$menucount' - '$prom1'"'	>> $1_menu.sh
 			echo '	'$menucount')'			>> $1_sub.sh
@@ -51,11 +52,11 @@ function fill { # 1 - name of the menu 2 - menu array string
 	echo '}'				>> $1_menu.sh
 
 
-	echo '	0)'			>> $1_sub.sh
-	echo '		1_menu'		>> $1_sub.sh
-	echo '		break'		>> $1_sub.sh
-	echo '	 ;;'			>> $1_sub.sh
-	echo '	*)'			>> $1_sub.sh
+	echo '	0)'						>> $1_sub.sh
+	echo '		'${y[$subbackcount]}'_menu'		>> $1_sub.sh
+	echo '		break'					>> $1_sub.sh
+	echo '	 ;;'						>> $1_sub.sh
+	echo '	*)'						>> $1_sub.sh
 	echo '		echo "fail"'	>> $1_sub.sh
 	echo '	 ;;'			>> $1_sub.sh
 	echo ' esac   '			>> $1_sub.sh
@@ -82,8 +83,9 @@ function arr_fill {
 		str_value=$(echo $line | cut -d ":" -f2)
 		tblnum=${str_attr:0:1}
 		str_sub=${str_attr: -2:1}
-		echo "STRING=$str_attr aaaaa="$str_sub
-		arr[$tblnum]=${arr[$tblnum]}$str_value$str_sub":"
+		str_sub_back=${str_attr: -3:1}
+		echo "STRING=$str_attr sub="$str_sub" back="$str_sub_back
+		arr[$tblnum]=${arr[$tblnum]}$str_value$str_sub_back$str_sub":"
 		arr_num[$tblnum]=$tblnum
 	
 	done < "$filename"
