@@ -10,7 +10,7 @@ How it works:
 		 3){12}: SUB MENU 2. OPT 1
 	
 	"1)"   --- digit determines number of menu or submenu. Must be uniq for each menu\submenu
-	"{13}" --- these two digits describe menu/submenu relationships. Firs (in our example it's 1) determine parent  menu\submenu, in our example it means that "SUB MENU 1. OPT 1" parent  is "MAIN MENU" which has number "1". Second digit (in our example - 3) determines  child meny\submenu. In our example it means that child for our menu is menu with number "3".
+	"{13}" --- these two digits describes menu/submenu relationships. Firs (in our example it's 1) determines parent  menu\submenu, in our example it means that "SUB MENU 1. OPT 1" is parent of "MAIN MENU" which has number "1". Second digit (in our example - 3) determines child meny\submenu. In our example it means that child for our menu is menu has  number "3".
 
 	2)clear.sh - will delete project created before.
 	3) main.sh - will create project via tpl template file
