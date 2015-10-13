@@ -14,3 +14,12 @@ How it works:
 
 	2)clear.sh - will delete project created before.
 	3) main.sh - will create project via tpl template file
+
+RUN:
+	$bash main.sh
+	
+	As a result you will have next structure:
+		project/|
+			|/libs/...  - contains all libs.
+			|/conf/...  - contains all confs.
+			|/start.sh  - Main entry point. (to start run: $bash start.sh)
