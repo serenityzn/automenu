@@ -10,9 +10,14 @@ function create_dirs {
 	mkdir ./$maindir/libs
 }
 
+function create_messages {
+	echo '#!/bin/bash'			>>$libdir/messages.sh
+	echo 'message[0]="Fail."'		>>$libdir/messages.sh
+}
 
 function start_b {
 	echo '#! /bin/bash'			>> $maindir/start.sh
+	echo 'source ./libs/messages.sh'	>> $maindir/start.sh
 }
 
 function start_e {
@@ -74,7 +79,7 @@ function fill { # 1 - name of the menu 2 - menu array string
 	echo '		break'					>> $libdir/$1_sub.sh
 	echo '	 ;;'						>> $libdir/$1_sub.sh
 	echo '	*)'						>> $libdir/$1_sub.sh
-	echo '		echo "fail"'				>> $libdir/$1_sub.sh
+	echo '		echo ${message[0]}'			>> $libdir/$1_sub.sh
 	echo '	 ;;'						>> $libdir/$1_sub.sh
 	echo ' esac   '						>> $libdir/$1_sub.sh
 	echo 'done'						>> $libdir/$1_sub.sh
@@ -121,6 +126,7 @@ filename="tpl"
 arr_fill
 #echo ${arr[@]}
 create_dirs
+create_messages
 start_b
 arrsize=${#arr[@]}
 arrsize=$((arrsize-1))
